@@ -1,0 +1,89 @@
+Flask_twip在heroku上搭建教程
+2012年11月24日 |分類: 關於推特 |標籤: api proxy , Flask-Twip , 推特API
+flask_twip是@ yegle寫的一個可以搭建在heroku上的一個twip移植版本。
+
+本教程使用的基於flask_twip-0.0.1的修改版本flask_twip-0.0.1_mod.zip，主要是因為原版本O模式認證後的token保存在文件裡，而heroku的文件為臨時文件（ephemeral文件），經過不到一天就會丟失，本修改將認證信息通過寫代碼裡第二次上傳來規避臨時文件丟失，其次增加了gzip壓縮支持。
+
+準備工作
+1、註冊heroku帳號,過程略。
+
+2、在https://dev.twitter.com註冊一個API的key，記錄consumer key和consumer secret，下面會用到。callback的url是
+
+http://APPNAME.herokuapp.com/twip/oauth/callback/ 
+APPNAME是你heroku應用的名字。可以提前寫好，也可以heroku的應用創建後再回來修改。在進行O模式認證前要修改好，不然認證後返回不正確，切記。
+
+3、找一個linux機器，以下以ubuntu為例，windows沒試過，windows很多命令工具沒有，比如pip和virtualenv。ubuntu用下面命令安裝heroku工具，也可參見https://toolbelt.heroku.com/debian
+
+wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh 
+有些命令如果系統沒有安裝單獨用apt-get install安裝，如git、virtualenv、pip。
+
+開始創建heroku應用
+以下步驟可以同步參考https://devcenter.heroku.com/articles/python
+
+1、輸入heroku帳號密碼登錄
+
+$heroku login 
+2、用下面命令創建一個目錄，比如mytwip，並進入到mytwip目錄裡。
+
+$mkdir mytwip && cd mytwip 
+3、用下面命令在mytwip目錄裡創建一個虛擬化環境，mytwip目錄裡會出現一個venv的目錄
+
+$virtualenv venv --distribute 
+4、用下面命令切換到虛擬化環境
+
+$source venv/bin/activate 
+5、將代碼拷入,將Procfile同級目錄的所有文件目錄拷貝到mytwip目錄裡。用$pip freeze看依賴情況，要求輸出和和代碼裡的requirements.txt一樣，如果不完整，用pip install安裝。如$pip install Flask
+
+$pip freeze  #開發環境中有安裝的package都列出來
+$pip install Flask  #安裝Flask
+requirements.txt文件內容如下:
+
+Flask==0.9 
+Flask-OAuth==0.12 
+Jinja2==2.6 
+Werkzeug==0.8.3 
+argparse==1.2.1 
+distribute==0.6.24 
+httplib2==0.7.7 
+oauth2==1.5.211 
+requests==0.14.2 
+wsgiref==0.1.2 
+6、修改examples\settings.py 修改settings.py裡的TWITTER_CONSUMER_KEY和TWITTER_CONSUMER_SECRET值為準備工作第2步twitter API創建的值。
+
+7、Procfile設置跳過，代碼裡已經包含。
+
+8、$foreman start跳過，這裡是本地試運行。
+
+9、在mytwip目錄下建一個.gitignore文件，表示venv目錄和pyc文件不上傳git服務器。
+
+venv 
+*.pyc 
+10、初始化mytwip目錄的git環境。
+
+$git init $git add . 
+$git commit - m "init" 
+11、創建應用,APPNAME為自定義名字。
+
+$heroku create APPNAME 
+檢查準備工作第2步的twitter API key的callback URL是否為：
+
+http://APPNAME.herokuapp.com/twip/oauth/callback/ 
+如果創建後想修改應用名字在mytwip目錄用下面命令再修改，newname是自定義新應用名稱。
+
+$heroku apps:rename newname 
+12、將應用上傳到heroku的git服務器，應用自動運行。
+
+$ git push heroku master 
+13、瀏覽器訪問https://APPNAME.herokuapp.com/twip/進行O模式認證認證完成後記錄API和TWITTER_ACCESS_TOKEN。API為：
+
+http://APPNAME.herokuapp.com/twip/TWITTER/KEY/ 
+其中TWITTER為你的twitter用戶名，KEY就是該API的key，API地址要保密,任何人通過這個地址都能訪問你的twitter帳號。
+
+14、將twitter帳號、API的key和access token修改到settings.py裡，TWITTER_ACCESS_TOKEN比較長，要保證在一行。用下面命令重新上傳。
+
+$git add . 
+$git commit -m "update key" 
+$git push heroku master 
+這樣據全部完成，可以在支持twip O模式的客戶端使用了，注意將API裡的http替換成https，不然會被牆的。
+
+https://APPNAME.herokuapp.com/twip/TWITTER/KEY/ 
