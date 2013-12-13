@@ -1,0 +1,8 @@
+Django==1.5.1
+PIL>=1.1.7
+django-haystack==2.0
+south
+pygments
+postmarkup
+django-pagination
+pytz>=2013b

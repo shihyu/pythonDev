@@ -1,0 +1,50 @@
+//先建立virtual env
+virtualenv djangobb
+
+//資料夾產生之後
+cd djangobb
+source bin/activate
+
+//建立要放project的資料夾
+mkdir project
+cd project
+
+//quick install 中安裝app的第一步
+wget https://bitbucket.org/slav0nic/djangobb/get/stable.tar.gz
+tar -xzvf stable.tar.gz
+
+//進入解壓完的資料夾, 這裡加入一個跟quick start不同的步驟
+cd slav0nic-djangobb-...
+pip install -r extras/requirements.txt
+
+//裝完才跑install
+./setup.py install
+
+//然後是quick install 裡basic project的部分
+cd ..
+wget https://bitbucket.org/slav0nic/djangobb_project/get/tip.tar.gz
+tar -xzvf tip.tar.gz
+cd slav0nic-djangobb_project-...
+pip install -r requirements.txt
+
+//接下來也不一樣, 因為沒看到quick install 提到的local_settings.py
+//所以我不理他, 直接編輯settings.py
+cd basic_project
+vim settings.py
+
+//在DATABASES 裡, 把ENGINE加上sqlite3
+//NAME加入'db/sqlite3.db', 然後存檔出來, 建立db 資料夾給sqlite3放檔案
+mkdir db
+
+//然後接下來我做sync db, 但是遇到cannot import SpellChecker的問題
+//google 之後說要把whoosh倒回2.4版來避開
+pip install whoosh==2.4
+./manage.py syncdb --all
+
+//建立管理帳號密碼後
+./manage.py collectstatic
+
+//run server
+./manage.py runserver
+
+//之後用瀏覽器瀏覽localhost:8000/forum就可以看到論壇

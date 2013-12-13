@@ -1,0 +1,21 @@
+syntax: glob
+*.pyc
+*.pyo
+*.orig
+*.egg-info
+.pydevproject
+.project
+*.db
+*.mo
+*.json
+*.log
+*~
+*.kpf
+*.autosave
+*.wpr
+.coverage
+local_settings.py
+.env
+.venv
+build/
+dist/
