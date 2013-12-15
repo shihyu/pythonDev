@@ -13,3 +13,21 @@
 7. pip search packagename // 查詢套件
 
 8. pip install django // 安裝套件 django 
+
+
+開始你的第一個專案
+1. django-admin.py startproject bookstore  // 創立一個 django
+
+結構很簡單，只有4個檔案：
+
+__init__.py 用來告訴Python這個資料夾是一個模組，裡面通常是空的，不過也可以寫一些程式碼在裡面。
+manage.py 用來操作整個Django專案的小工具，例如啟動伺服器python manage.py runserver，或是同步資料庫python manage.py syncdb
+settings.py 設定檔
+urls.py 負責網站的路由。
+
+
+
+2. python manage.py runserver // 啟動伺服器
+
+
+
