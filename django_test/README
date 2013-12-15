@@ -1,0 +1,15 @@
+1. virtualenv django_test // 先建立virtual env
+
+2. cd django_test //資料夾產生之後
+
+3. source bin/activate  // 啟動virtual env
+
+4. deactivate // 離開 virtual env
+
+5. pip freeze > requirements.txt  // 查看目前 virtualenv env 安裝了什麼套件
+
+6. pip install -r requirements.txt  // 可以拿現成的 requirements.txt 直接安裝所需要的套件
+
+7. pip search packagename // 查詢套件
+
+8. pip install django // 安裝套件 django 
