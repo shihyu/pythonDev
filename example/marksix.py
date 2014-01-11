@@ -1,17 +1,14 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 import urllib2
 import re
 def fetch(url):
     page=urllib2.urlopen(url).read()
-    f = open('tmp.txt', 'w') 
-    f.write(page) 
-    f.close() 
-    f = open('tmp.txt', 'r+')
-
+    page = page.split('\n')
     p = re.compile('\<TD align=middle\>(\d+\-\d+\-\d+)\<\/TD\>')
     pat = re.compile('(\d+\s+\d+\s+\d+\s+\d+\s+\d+\s+\d+).*(\d+)')
-    for line in f:
+
+    for line in page:
         line = line.strip()
         if p.findall(line) != []:
             print u"開獎日期:" + p.findall(line)[0]
