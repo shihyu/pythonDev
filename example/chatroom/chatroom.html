@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Chat Room</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script language="javascript" type="text/javascript">
+$(document).ready(function () {
+    var socket = new WebSocket("ws://localhost:8080/");
+    socket.onmessage = function(event) {
+        $("#message").append("<div>" + event.data + "</div>");
+    }
+
+    $("#send").click(function() {
+        socket.send($("#text").val());
+        $("#text").val("").select();
+    });
+});
+</script>
+</head>
+<body>
+<div id="message"></div>
+<textarea id="text"></textarea>
+<input type="button" id="send" value="send" />
+</body>
+</html>
