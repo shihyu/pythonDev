@@ -1,3 +1,12 @@
+使用 python Tornado 實作 WebSocket 聊天室
+
+早期網頁更新訊息必須 Refresh 整個頁面，這使得網頁互動效果有一定的限制在。後來 AJAX 的火紅，使得網頁的 UX 提升到了另一個境界。
+
+但 AJAX 仍無法有效率的處理 Realtime 的訊息傳遞，最多只能做到 Realtime-like，畢竟仍是 client 主動，server 被動，若 server 有資料更新，client 也只能透過 polling 的方式來偵測資料是否有更新，而這不但 client 辛苦，server 更是得面臨大量的 garbage packet。
+
+只要瀏覽器支援，其實透過 WebSocket 來處理是更理想的。WebScoket 跟傳統 socket 在使用上非常相似，都是由 client 主動連線，並在正常情況下可保持連線，使得 server 可直接將訊息送到「連接中」的 client。
+
+
 1.安裝 Tornado
 2.執行 chatroom.py
 3.多開 chatroom.html，就可以進行聊天了
