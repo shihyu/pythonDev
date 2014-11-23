@@ -1,3 +1,7 @@
 1. gcc -c -fPIC test.c
 2. ar cr libtest.a test.o
 3. gcc -shared -fPIC -Wl,--whole-archive libtest.a -Wl,--no-whole-archive -Wl,-soname -Wl,libtest.so -o libtest.so
+
+
+
+gcc -shared -fPIC test.c -o libtest.so  // 直接一行好像也可以

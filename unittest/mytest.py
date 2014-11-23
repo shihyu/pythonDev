@@ -7,12 +7,15 @@ from test import * #加载test.py
  
 class Myclass( unittest.TestCase ): 
     def setUp( self ): 
+        print 'setUp'
         pass 
  
     def tearDown( self ): 
+        print 'tearDown'
         pass 
  
     def test1( self ): 
+        print 'test1'
         rc = rect( point(0, 0), point(1, 1) ) 
         self.assert_( area( rc ) == 1 ) 
  

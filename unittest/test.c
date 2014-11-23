@@ -1,4 +1,4 @@
-#include <math.h>
+#include <stdlib.h>
 #include "test.h"
 
 int area(rect s) {

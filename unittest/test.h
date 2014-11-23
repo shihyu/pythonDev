@@ -8,4 +8,4 @@ typedef struct _point {
 typedef struct _rect {
     point a, b;
 } rect;
-#endif  //__TEST_H_
+#endif  /*__TEST_H_*/
